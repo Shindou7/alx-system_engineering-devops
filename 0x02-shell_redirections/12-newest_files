@@ -1,2 +1,2 @@
 #!/bin/bash
-sort >  '.'| head -n 10
+find . -type f -name  '.'|sort -r | head -n 10

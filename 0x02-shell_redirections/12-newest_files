@@ -1,2 +1,2 @@
 #!/bin/bash
-sort '.'| head -n 10
+sort >  '.'| head -n 10

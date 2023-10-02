@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 # 3-until_best_school
 
-#DISP_MSG="Best School"
 
 i=10
 until [ "$i" -lt 1 ]; do
-	echo -e "$Best School"
+	echo -e "Best School"
 	i="$((i-1))"
 done

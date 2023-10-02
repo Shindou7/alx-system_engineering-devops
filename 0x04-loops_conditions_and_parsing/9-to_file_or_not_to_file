@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# to_file_or_not_to_file
+
+
+if [ -e "school" ]; then
+	echo -e "school file exists"
+	[[ -s "school" ]] && echo -e "school file is not empty"
+	[[ ! -s "school" ]] && echo -e "school file is empty"
+	[[ -f "school" ]] && echo -e "school is a regular file"
+
+else
+	echo -e "school file does not exist"
+fi

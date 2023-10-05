@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Ping an address
+# 5-is_the_host_on_the_network
 
 if [ "$#" -eq 0 ]; then
 	echo -e "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
 	exit 1
 fi
+
 
 i=0
 for arg in "$@"; do

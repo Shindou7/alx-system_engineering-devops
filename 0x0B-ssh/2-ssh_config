@@ -1,0 +1,6 @@
+# SSH configuration file for the local client
+# This is the ssh client system-wide configuration file. 
+
+Host 52.23.178.44
+     PasswordAuthentication no
+     IdentityFile ~/.ssh/school

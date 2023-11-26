@@ -2,5 +2,5 @@
 # This is the ssh client system-wide configuration file. 
 
 Host 52.23.178.44
-     PasswordAuthentication no
-     IdentityFile ~/.ssh/school
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no

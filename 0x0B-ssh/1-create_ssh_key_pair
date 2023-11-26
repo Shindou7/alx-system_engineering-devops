@@ -5,4 +5,4 @@ KEY_NAME="school"
 KEY_PASS="betty"
 KEY_BITS="4096"
 
-ssh-keygen -b $KEY_BITS -N $KEY_PASS -f $KEY_NAME
+ssh-keygen -b "$KEY_BITS" -N "$KEY_PASS" -f "$KEY_NAME"

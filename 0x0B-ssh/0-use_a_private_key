@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # key in ~/.ssh/school for user ubuntu
 
-ssh -i ~/.ssh/school ubuntu@54.146.58.67
+ssh -i ~/.ssh/school ubuntu@100.25.31.58

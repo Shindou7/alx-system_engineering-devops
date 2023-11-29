@@ -7,21 +7,21 @@ exec { 'apt-update':
 }
 
 # Install nginx
-package { 'nginx':
-  ensure  => installed,
-  require => Exec['apt-update'],
+class { 'nginx':
+  manage_repo => true,
+  require     => Exec['apt-update'],
 }
 
 # Create a new index.html
 file { 'Create index.html':
-  require => Package['nginx'],
+  require => Class['nginx'],
   path    => '/var/www/html/index.html',
   content => 'Hello World!\n',
 }
 
 # Create a new error page
 file { 'Create 404.html':
-  require => Package['nginx'],
+  require => Class['nginx'],
   path    => '/var/www/html/404.html',
   content => 'Ceci n\'est pas une page\n',
 }
@@ -30,12 +30,13 @@ file { 'Create 404.html':
 file { '/etc/nginx/sites-available/default':
   ensure  => file,
   source  => $default_site,
-  require => Package['nginx'],
+  require => Class['nginx'],
 }
 
-# Start nginx service
+# Start and enable nginx service
 service { 'nginx':
   ensure  => running,
+  enable  => true,
   require => File["/etc/nginx/sites-available/default"],
 }
 

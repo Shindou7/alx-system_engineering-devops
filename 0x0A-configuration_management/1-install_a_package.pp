@@ -1,7 +1,13 @@
-# Puppet Manifest to install Flask using pip3
+# 1-install_a_package.pp
 
-exec { 'install_flask':
-  command => '/usr/bin/pip3 install Flask==2.1.0',
-  path    => '/usr/bin',
-  creates => '/usr/local/lib/python3.8/dist-packages/flask',
+# Ensure that the package 'flask' is installed using pip3
+package { 'flask':
+  ensure   => '2.1.0',
+  provider => 'pip3'
+}
+
+# Ensure that the package 'werkzeug' is installed using pip3 and specify version 2.1.1
+package { 'werkzeug':
+  ensure   => '2.1.1',
+  provider => 'pip3'
 }

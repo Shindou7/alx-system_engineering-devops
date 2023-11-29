@@ -1,4 +1,37 @@
-exec {'install':
-  provider => shell,
-  command  => 'sudo apt-get -y update ; sudo apt-get -y install nginx ; echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html ; sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/youtu.be\/f4UULbq4Dkc?si=0-wQWthQv71rIOnO permanent;/" /etc/nginx/sites-available/default ; sudo service nginx start',
+# Install Nginx web server with Puppet
+include stdlib
+
+$link = 'https://youtu.be/f4UULbq4Dkc?si=0-wQWthQv71rIOnO'
+$content = "\trewrite ^/redirect_me/$ ${link} permanent;"
+
+exec { 'update packages':
+  command => '/usr/bin/apt-get update'
+}
+
+exec { 'restart nginx':
+  command => '/usr/sbin/service nginx restart',
+  require => Package['nginx']
+}
+
+package { 'nginx':
+  ensure  => 'installed',
+  require => Exec['update packages']
+}
+
+file { '/var/www/html/index.html':
+  ensure  => 'present',
+  content => 'Hello World!',
+  mode    => '0644',
+  owner   => 'root',
+  group   => 'root'
+}
+
+file_line { 'Set 301 redirection':
+  ensure   => 'present',
+  after    => 'server_name\ _;',
+  path     => '/etc/nginx/sites-available/default',
+  multiple => true,
+  line     => $content,
+  notify   => Exec['restart nginx'],
+  require  => File['/var/www/html/index.html']
 }

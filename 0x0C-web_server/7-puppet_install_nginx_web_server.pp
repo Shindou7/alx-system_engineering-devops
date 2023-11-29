@@ -38,3 +38,14 @@ service { 'nginx':
   ensure  => running,
   require => File["/etc/nginx/sites-available/default"],
 }
+
+# Add a resource for the redirect
+nginx::resource::location { 'redirect_me':
+  ensure   => present,
+  location => '/redirect_me',
+  rewrite  => '^/redirect_me$',
+  options  => {
+    'return' => '301 https://www.example.com/',
+  },
+  require  => File["/etc/nginx/sites-available/default"],
+}

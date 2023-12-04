@@ -1,43 +1,25 @@
 #!/usr/bin/env bash
+## install and config
 
-# YouTube link
-link="https://youtu.be/f4UULbq4Dkc?si=0-wQWthQv71rIOnO"
-
-# Nginx configuration
-new_conf="server_name _;\n\trewrite ^/redirect_me/$ $link permanent;"
-location_error="location = /404.html {\n\t\troot /var/www/html/;\n\t\tinternal;\n"
-error_directive="error_page 404 /404.html;\n\t$location_error"
-error_404="}\n\n\t$error_directive\t}"
-
-# Install Nginx
-sudo apt update
-sudo apt install -y nginx
-sudo ufw allow 'Nginx HTTP'
-
-# Create HTML pages
+sudo apt-get -y update
+sudo apt-get -y install nginx
 echo "Hello World!" | sudo tee /var/www/html/index.html
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
-# Update Nginx configuration
-sudo sed -i "s|server_name\ _;|$new_conf|" /etc/nginx/sites-available/default
-sudo sed -i "0,/}/ s|}|$error_404|" /etc/nginx/sites-available/default
+sudo service nginx start;
 
-# Restart Nginx
-sudo service nginx restart
+# configure nginx server
+default_sites="/etc/nginx/sites-available/default";
+location=$(grep -Fn location $default_sites | head -1 | cut -d":" -f1);
+location_data="\\\tlocation /redirect_me {\n\t\treturn 301 https://youtu.be/f4UULbq4Dkc?si=0-wQWthQv71rIOnO;\n\t}\n\n";
+error_page="\\\terror_page 404 /404.html;\n";
+host_name=$(hostname);
+set_x_serverd_by="\\\tadd_header X-Served-By \"${host_name}\";\n";
 
-# Update custom header in nginx.conf
-config_file="/etc/nginx/nginx.conf"
+echo "Ceci n'est pas une page" | sudo tee "/var/www/html/404.html"
 
-if ! sudo grep -q "add_header X-Served-By" $config_file; then
-    header_key="X-Served-By"
-    header_value="\$hostname"
-    header="add_header $header_key $header_value;"
-    search="http {"
-    new_conf="$search\n\t$header"
+## Update default site to redirect and start nginx server
+sudo sed -i "${location}i ${location_data}" ${default_sites};
+sudo sed -i "${location}i ${error_page}" ${default_sites};
+sudo sed -i "${location}i ${set_x_serverd_by}" ${default_sites};
 
-    # Replace the value found with the new configuration
-    sudo sed -i "s|$search|$new_conf|" $config_file
-
-    # Restart Nginx Service
-    sudo service nginx restart
-fi
+sudo service nginx restart;

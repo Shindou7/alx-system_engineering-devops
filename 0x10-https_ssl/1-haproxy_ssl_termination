@@ -7,6 +7,8 @@ global
         user haproxy
         group haproxy
         daemon
+        ssl-server-verify none
+        tune.ssl.default-dh-param 2048
 
         # Default SSL material locations
         ca-base /etc/ssl/certs
@@ -22,6 +24,7 @@ defaults
         mode    http
         option  httplog
         option  dontlognull
+        option ssl-hello-chk
         timeout connect 5000
         timeout client  50000
         timeout server  50000
@@ -33,9 +36,20 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-listen lb
-        bind :80
-        bind :443 ssl crt /etc/letsencrypt/live/www.shindou.tech/fullchain.pem 
-        balance roundrobin
-        server 379821-web-01 18.234.193.22:80 check
-        server 379821-web-02 34.227.90.136:80 check
+
+
+frontend http
+    bind *:80
+    http-request set-header X-Forwarded-Proto http
+    default_backend web-backend
+
+frontend www-https
+    bind *:443 ssl crt /etc/letsencrypt/live/www.shindou.tech/fullchain.pem
+    http-request set-header X-Forwarded-Proto https
+    default_backend web-backend
+
+backend web-backend
+    balance roundrobin
+    redirect scheme https if !{ ssl_fc }
+    server 379821-web-01 18.234.193.22:80 check
+    server 379821-web-02 34.227.90.136:80 check

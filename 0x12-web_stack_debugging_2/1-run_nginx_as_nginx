@@ -12,5 +12,4 @@ chmod 644 /etc/nginx/nginx.conf
 sed -i 's/80 default_server/8080 default_server/' /etc/nginx/sites-available/default
 
 # Restart nginx
-pkill apache2
 service nginx restart

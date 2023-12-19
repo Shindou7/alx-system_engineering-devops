@@ -1,34 +1,16 @@
-<<<<<<< HEAD
 #!/usr/bin/env bash
+
 # Run nginx as nginx user instead of root
 # Script that starts nginx as nginx user
 
-sudo sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
+sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
 
-# permissions of config file
-chmod 700 /etc/nginx/nginx.conf
-chown nginx:nginx /etc/nginx/nginx.conf
-
-# listen to 8080
-sudo sed -i 's/80 default_server/8080 default_server/' /etc/nginx/sites-available/default
-
-# restart
-pkill apache2
-sudo -u nginx service nginx restart
-=======
-#!/usr/bin/env bash
-# Run nginx as nginx user instead of root
-# Script that starts nginx as nginx user
-
-sudo sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
-
-# permissions of config file
+# Permissions of the config file
 chmod 644 /etc/nginx/nginx.conf
 
-# listen to 8080
-sudo sed -i 's/80 default_server/8080 default_server/' /etc/nginx/sites-available/default
+# Listen to port 8080
+sed -i 's/80 default_server/8080 default_server/' /etc/nginx/sites-available/default
 
-# restart
+# Restart nginx
 pkill apache2
-sudo -u nginx service nginx restart
->>>>>>> ee80dc59fbe9a78592bade286644df9e088c1086
+service nginx restart

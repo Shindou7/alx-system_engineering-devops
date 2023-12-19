@@ -1,17 +1,7 @@
 #!/usr/bin/env bash
-# This script configures and restarts Nginx to run as the 'nginx' user instead of root
-
-# Update the user in the nginx.conf file
-sudo sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
-
-# Make nginx.conf readable, writable, and executable by all users
-sudo chmod a+rwx /etc/nginx/nginx.conf
-
-# Change the default port to 8080 in the default site configuration
-sudo sed -i 's/80 default_server/8080 default_server/' /etc/nginx/sites-available/default
-
-# Stop Apache2 if it's running
+# Run nginx as the nginx user
 pkill apache2
-
-# Restart Nginx with the updated configuration
-sudo -u nginx service nginx restart
+sed -i "s/listen 80/listen 8080/" /etc/nginx/sites-available/default
+sed -i "s/listen \[::\]:80/listen \[::\]:8080/" /etc/nginx/sites-available/default
+chmod 0644 /etc/nginx/nginx.conf
+service nginx start

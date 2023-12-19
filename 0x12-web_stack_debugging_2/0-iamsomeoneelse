@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Set a shell for a desired user
+# and execute the "whoami" command
+
+sudo -u "$1" whoami

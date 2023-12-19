@@ -6,3 +6,9 @@ Host 379821-web-01
     HostName 18.234.193.22
     User ubuntu
     IdentityFile ~/.ssh/school
+
+# Configuration for the second host (379821-web-02)
+Host 379821-web-02
+    HostName 34.227.90.136
+    User ubuntu
+    IdentityFile ~/.ssh/school

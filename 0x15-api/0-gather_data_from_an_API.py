@@ -5,6 +5,7 @@ about his/her TODO list progress.
 import requests
 from sys import argv
 
+
 def display():
     if len(argv) != 2:
         print("Usage: {} <employee_id>".format(argv[0]))
@@ -37,6 +38,7 @@ def display():
           .format(employee_name, number_of_done_tasks, total_num_of_tasks))
     for task in task_titles:
         print("\t{}".format(task))
+
 
 if __name__ == "__main__":
     display()

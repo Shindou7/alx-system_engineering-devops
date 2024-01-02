@@ -11,7 +11,7 @@ def display():
     users = requests.get("http://jsonplaceholder.typicode.com/users")
     for user in users.json():
         if user.get('id') == int(argv[1]):
-            EMPLOYEE_NAME = (user.get('name'))
+            EMPLOYEE_NAME = user.get('name')  # Corrected the assignment
             break
     TOTAL_NUM_OF_TASKS = 0
     NUMBER_OF_DONE_TASKS = 0

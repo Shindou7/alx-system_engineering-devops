@@ -5,6 +5,7 @@ Function count
 import re
 import requests
 
+
 def add_title(dictionary, hot_posts):
     """ Adds item into a list title """
     if not hot_posts:
@@ -18,13 +19,15 @@ def add_title(dictionary, hot_posts):
     hot_posts.pop(0)
     add_title(dictionary, hot_posts)
 
+
 def recurse(subreddit, dictionary, after=None):
     """ Adds item into a recurse """
     u_agent = 'My User Agent 1.0'
     headers = {'User-Agent': u_agent}
     params = {'after': after}
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-    res = requests.get(url, headers=headers, params=params, allow_redirects=False)
+    res = requests.get(url, headers=headers, params=params,
+                       allow_redirects=False)
 
     if res.status_code != 200:
         return
@@ -36,6 +39,7 @@ def recurse(subreddit, dictionary, after=None):
     after = data['data']['after']
     if after:
         recurse(subreddit, dictionary, after=after)
+
 
 def count_words(subreddit, word_list):
     """ count_words """

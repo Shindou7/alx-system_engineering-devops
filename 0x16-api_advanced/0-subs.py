@@ -3,24 +3,19 @@
 the number of subscribers for a given subreddit.
 """
 import requests
-import sys
 
 
 def number_of_subscribers(subreddit):
-    """ Queries to Reddit API """
-    u_agent = 'My User Agent 1.0'
+    """Queries the Reddit API to get the number of
+    subscribers for a given subreddit."""
+    user_agent = 'My User Agent 1.0'
+    headers = {'User-Agent': user_agent}
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    response = requests.get(url, headers=headers, allow_redirects=False)
 
-    headers = {
-        'User-Agent': u_agent
-    }
+    if response.status_code != 200:
+        return 0
 
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    res = requests.get(url, headers=headers, allow_redirects=False)
-    if res.status_code != 200:
-        return 0
-    dic = res.json()
-    if 'data' not in dic:
-        return 0
-    if 'subscribers' not in dic.get('data'):
-        return 0
-    return res.json()['data']['subscribers']
+    data = response.json().get('data')
+    subscribers = data.get('subscribers') if data and 'subscribers' in data else 0
+    return subscribers

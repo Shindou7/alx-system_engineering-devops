@@ -28,6 +28,7 @@ def number_of_subscribers(subreddit):
             return res.json().get('data', {}).get('subscribers', 0)
     return 0
 
+
 # Test cases
 print(number_of_subscribers('existing_subreddit'))
 # Replace with an actual existing subreddit

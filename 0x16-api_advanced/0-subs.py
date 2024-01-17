@@ -27,10 +27,3 @@ def number_of_subscribers(subreddit):
         if res.status_code == 200:
             return res.json().get('data', {}).get('subscribers', 0)
     return 0
-
-
-# Test cases
-print(number_of_subscribers('existing_subreddit'))
-# Replace with an actual existing subreddit
-print(number_of_subscribers('nonexisting_subreddit'))
-# Replace with an invalid subreddit

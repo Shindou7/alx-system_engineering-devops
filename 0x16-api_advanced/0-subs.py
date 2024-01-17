@@ -26,8 +26,6 @@ def number_of_subscribers(subreddit):
         # Check if the response is successful (200 OK)
         if res.status_code == 200:
             return res.json().get('data', {}).get('subscribers', 0)
-
-    # Return 0 for any other cases
     return 0
 
 # Test cases
